@@ -1,7 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Skoruba.IdentityServer4.Admin.BusinessLogic.Shared.Dtos.Common;
+using Skoruba.IdentityServer4.Admin.EntityFramework.Helpers;
 
 namespace Skoruba.IdentityServer4.Admin.BusinessLogic.Dtos.Configuration
 {
@@ -21,7 +22,7 @@ namespace Skoruba.IdentityServer4.Admin.BusinessLogic.Dtos.Configuration
         [Required]
 		public string Type { get; set; } = "SharedSecret";
 
-	    public List<SelectItem> TypeList { get; set; }
+	    public List<SelectItemDto> TypeList { get; set; }
 
         public string Description { get; set; }
 
@@ -30,7 +31,22 @@ namespace Skoruba.IdentityServer4.Admin.BusinessLogic.Dtos.Configuration
 
 		public string HashType { get; set; }
 
-		public List<SelectItem> HashTypes { get; set; }
+        public HashType HashTypeEnum
+        {
+            get
+            {
+                HashType result;
+
+                if (Enum.TryParse(HashType, true, out result))
+                {
+                    return result;
+                }
+
+                return EntityFramework.Helpers.HashType.Sha256;
+            }
+        }
+
+		public List<SelectItemDto> HashTypes { get; set; }
 
 		public DateTime? Expiration { get; set; }
 

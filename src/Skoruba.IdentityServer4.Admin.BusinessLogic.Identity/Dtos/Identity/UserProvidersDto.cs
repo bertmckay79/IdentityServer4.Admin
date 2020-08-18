@@ -1,16 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using Skoruba.IdentityServer4.Admin.BusinessLogic.Identity.Dtos.Identity.Interfaces;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Skoruba.IdentityServer4.Admin.BusinessLogic.Identity.Dtos.Identity
 {
-    public class UserProvidersDto<TUserDtoKey> : UserProviderDto<TUserDtoKey>
+    public class UserProvidersDto<TKey> : UserProviderDto<TKey>, IUserProvidersDto
     {
         public UserProvidersDto()
         {
-            Providers = new List<UserProviderDto<TUserDtoKey>>();
+            Providers = new List<UserProviderDto<TKey>>();
         }
 
-        public string UserName { get; set; }
+        public List<UserProviderDto<TKey>> Providers { get; set; }
 
-        public List<UserProviderDto<TUserDtoKey>> Providers { get; set; }
+        List<IUserProviderDto> IUserProvidersDto.Providers => Providers.Cast<IUserProviderDto>().ToList();
     }
 }

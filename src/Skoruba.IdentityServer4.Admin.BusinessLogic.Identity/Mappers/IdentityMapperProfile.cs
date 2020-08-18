@@ -8,15 +8,19 @@ using System.Collections.Generic;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Skoruba.IdentityServer4.Admin.BusinessLogic.Identity.Dtos.Identity;
-using Skoruba.IdentityServer4.Admin.BusinessLogic.Shared.Dtos.Common;
 using Skoruba.IdentityServer4.Admin.BusinessLogic.Shared.ExceptionHandling;
-using Skoruba.IdentityServer4.Admin.EntityFramework.Identity.Entities.Identity;
+using Skoruba.IdentityServer4.Admin.EntityFramework.Extensions.Common;
 
 namespace Skoruba.IdentityServer4.Admin.BusinessLogic.Identity.Mappers
 {
-    public class IdentityMapperProfile<TUserDto, TUserDtoKey, TRoleDto, TRoleDtoKey, TUser, TRole, TKey, TUserClaim, TUserRole, TUserLogin, TRoleClaim, TUserToken> : Profile
-        where TUserDto : UserDto<TUserDtoKey>
-        where TRoleDto : RoleDto<TRoleDtoKey>
+    public class IdentityMapperProfile<TUserDto, TRoleDto, TUser, TRole, TKey, TUserClaim, TUserRole,
+        TUserLogin, TRoleClaim, TUserToken,
+        TUsersDto, TRolesDto, TUserRolesDto, TUserClaimsDto,
+        TUserProviderDto, TUserProvidersDto, TRoleClaimsDto,
+        TUserClaimDto, TRoleClaimDto>
+        : Profile
+        where TUserDto : UserDto<TKey>
+        where TRoleDto : RoleDto<TKey>
         where TUser : IdentityUser<TKey>
         where TRole : IdentityRole<TKey>
         where TKey : IEquatable<TKey>
@@ -25,13 +29,22 @@ namespace Skoruba.IdentityServer4.Admin.BusinessLogic.Identity.Mappers
         where TUserLogin : IdentityUserLogin<TKey>
         where TRoleClaim : IdentityRoleClaim<TKey>
         where TUserToken : IdentityUserToken<TKey>
+        where TUsersDto : UsersDto<TUserDto, TKey>
+        where TRolesDto : RolesDto<TRoleDto, TKey>
+        where TUserRolesDto : UserRolesDto<TRoleDto, TKey>
+        where TUserClaimsDto : UserClaimsDto<TUserClaimDto, TKey>
+        where TUserProviderDto : UserProviderDto<TKey>
+        where TUserProvidersDto : UserProvidersDto<TKey>
+        where TRoleClaimsDto : RoleClaimsDto<TKey>
+        where TUserClaimDto : UserClaimDto<TKey>
+        where TRoleClaimDto : RoleClaimDto<TKey>
     {
         public IdentityMapperProfile()
         {
             // entity to model
             CreateMap<TUser, TUserDto>(MemberList.Destination);
-            
-            CreateMap<UserLoginInfo, UserProviderDto<TUserDtoKey>>(MemberList.Destination);
+
+            CreateMap<UserLoginInfo, TUserProviderDto>(MemberList.Destination);
 
             CreateMap<IdentityError, ViewErrorMessage>(MemberList.Destination)
                 .ForMember(x => x.ErrorKey, opt => opt.MapFrom(src => src.Code))
@@ -43,54 +56,58 @@ namespace Skoruba.IdentityServer4.Admin.BusinessLogic.Identity.Mappers
             CreateMap<TUser, TUser>(MemberList.Destination)
                 .ForMember(x => x.SecurityStamp, opt => opt.Ignore());
 
-            CreateMap<PagedList<TUser>, UsersDto<TUserDto, TUserDtoKey>>(MemberList.Destination)
+            CreateMap<TRole, TRole>(MemberList.Destination);
+
+            CreateMap<PagedList<TUser>, TUsersDto>(MemberList.Destination)
                 .ForMember(x => x.Users,
                     opt => opt.MapFrom(src => src.Data));
 
-            CreateMap<TUserClaim, UserClaimDto<TUserDtoKey>>(MemberList.Destination)
+            CreateMap<TUserClaim, TUserClaimDto>(MemberList.Destination)
                 .ForMember(x => x.ClaimId, opt => opt.MapFrom(src => src.Id));
 
-            CreateMap<TUserClaim, UserClaimsDto<TUserDtoKey>>(MemberList.Destination)
+            CreateMap<TUserClaim, TUserClaimsDto>(MemberList.Destination)
                 .ForMember(x => x.ClaimId, opt => opt.MapFrom(src => src.Id));
 
-            CreateMap<PagedList<TRole>, RolesDto<TRoleDto, TRoleDtoKey>>(MemberList.Destination)
+            CreateMap<PagedList<TRole>, TRolesDto>(MemberList.Destination)
                 .ForMember(x => x.Roles,
                     opt => opt.MapFrom(src => src.Data));
 
-            CreateMap<PagedList<TRole>, UserRolesDto<TRoleDto, TUserDtoKey, TRoleDtoKey>>(MemberList.Destination)
+            CreateMap<PagedList<TRole>, TUserRolesDto>(MemberList.Destination)
                 .ForMember(x => x.Roles,
                     opt => opt.MapFrom(src => src.Data));
 
-            CreateMap<PagedList<TUserClaim>, UserClaimsDto<TUserDtoKey>>(MemberList.Destination)
+            CreateMap<PagedList<TUserClaim>, TUserClaimsDto>(MemberList.Destination)
+                .ForMember(x => x.Claims,
+                    opt => opt.MapFrom(src => src.Data));
+            
+            CreateMap<PagedList<TRoleClaim>, TRoleClaimsDto>(MemberList.Destination)
                 .ForMember(x => x.Claims,
                     opt => opt.MapFrom(src => src.Data));
 
-            CreateMap<PagedList<TRoleClaim>, RoleClaimsDto<TRoleDtoKey>>(MemberList.Destination)
-                .ForMember(x => x.Claims,
-                    opt => opt.MapFrom(src => src.Data));
-
-            CreateMap<List<UserLoginInfo>, UserProvidersDto<TUserDtoKey>>(MemberList.Destination)
+            CreateMap<List<UserLoginInfo>, TUserProvidersDto>(MemberList.Destination)
                 .ForMember(x => x.Providers, opt => opt.MapFrom(src => src));
 
-            CreateMap<TRoleClaim, RoleClaimDto<TRoleDtoKey>>(MemberList.Destination)
+            CreateMap<TRoleClaim, TRoleClaimDto>(MemberList.Destination)
                 .ForMember(x => x.ClaimId, opt => opt.MapFrom(src => src.Id));
 
-            CreateMap<TRoleClaim, RoleClaimsDto<TRoleDtoKey>>(MemberList.Destination)
+            CreateMap<TRoleClaim, TRoleClaimsDto>(MemberList.Destination)
                 .ForMember(x => x.ClaimId, opt => opt.MapFrom(src => src.Id));
 
-            CreateMap<TUserLogin, UserProviderDto<TUserDtoKey>>(MemberList.Destination);
+            CreateMap<TUserLogin, TUserProviderDto>(MemberList.Destination);
 
             // model to entity
-            CreateMap<TRoleDto, TRole>(MemberList.Source);
+            CreateMap<TRoleDto, TRole>(MemberList.Source)
+                .ForMember(dest => dest.Id, opt => opt.Condition(srs => srs.Id != null)); ;
 
-            CreateMap<RoleClaimsDto<TRoleDtoKey>, TRoleClaim>(MemberList.Source);
+            CreateMap<TRoleClaimsDto, TRoleClaim>(MemberList.Source);
 
-            CreateMap<UserClaimsDto<TUserDtoKey>, TUserClaim>(MemberList.Source)
+            CreateMap<TUserClaimsDto, TUserClaim>(MemberList.Source)
                 .ForMember(x => x.Id,
                     opt => opt.MapFrom(src => src.ClaimId));
 
             // model to entity
-            CreateMap<TUserDto, TUser>(MemberList.Source);
+            CreateMap<TUserDto, TUser>(MemberList.Source)
+                .ForMember(dest => dest.Id, opt => opt.Condition(srs => srs.Id != null)); ;
         }
     }
 }

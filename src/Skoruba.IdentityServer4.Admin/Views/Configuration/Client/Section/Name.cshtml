@@ -42,40 +42,40 @@
 					</div>
 				</div>
 				<div class="w-100 d-none d-sm-block d-md-none"></div>
+			    <div class="card mt-4 mb-4 box-shadow">
+                    <div class="card-body">
+                        <label class="radio-img">
+                            <input type="radio" asp-for="ClientType" value="@((int)ClientType.Spa)" />
+                            <img src="~/images/icons/spa-client.png" alt="Web Spa" />
+                            <h3>@Localizer["TitleSpa"]</h3>
+                            <h4>@Localizer["TitleCode"]</h4>
+                        </label>
+                    </div>
+			    </div>
+                <div class="w-100 d-none d-sm-block d-md-none"></div>
 				<div class="card mt-4 mb-4 box-shadow">
 					<div class="card-body">
 						<label class="radio-img">
-							<input type="radio" asp-for="ClientType" value="@((int)ClientType.WebImplicit)" />
-							<img src="~/images/icons/web-client.png" alt="Web Implicit" />
-							<h3>@Localizer["TitleWebImplicit"]</h3>
-							<h4>@Localizer["TitleImplicit"]</h4>
-						</label>
-					</div>
-				</div>
-				<div class="w-100 d-none d-sm-block d-md-none"></div>
-				<div class="card mt-4 mb-4 box-shadow">
-					<div class="card-body">
-						<label class="radio-img">
-							<input type="radio" asp-for="ClientType" value="@((int)ClientType.WebHybrid)" />
+							<input type="radio" asp-for="ClientType" value="@((int)ClientType.Web)" />
 							<img src="~/images/icons/web-client.png" alt="Web Hybrid" />
 							<h3>@Localizer["TitleWebHybrid"]</h3>
-							<h4>@Localizer["TitleHybrid"]</h4>
+                            <h4>@Localizer["TitleCode"]</h4>
 						</label>
 					</div>
 				</div>
 			</div>
 
 			<div class="card-deck mb-3 text-center">
-				<div class="card mb-4 box-shadow">
-					<div class="card-body">
-						<label class="radio-img">
-							<input type="radio" asp-for="ClientType" value="@((int)ClientType.Spa)" />
-							<img src="~/images/icons/spa-client.png" alt="Web Spa" />
-							<h3>@Localizer["TitleSpa"]</h3>
-							<h4>@Localizer["TitleImplicit"]</h4>
-						</label>
-					</div>
-				</div>
+			    <div class="card mb-4 box-shadow">
+			        <div class="card-body">
+			            <label class="radio-img">
+			                <input type="radio" asp-for="ClientType" value="@((int)ClientType.Device)" />
+			                <img src="~/images/icons/device-client.png" alt="Device" />
+			                <h3>@Localizer["TitleDevice"]</h3>
+			                <h4>@Localizer["TitleDeviceFlow"]</h4>
+			            </label>
+			        </div>
+			    </div>
 				<div class="w-100 d-none d-sm-block d-md-none"></div>
 				<div class="card mb-4 box-shadow">
 					<div class="card-body">
@@ -83,7 +83,7 @@
 							<input type="radio" asp-for="ClientType" value="@((int) ClientType.Native)" />
 							<img src="~/images/icons/native-client.png" alt="Native" />
 							<h3>@Localizer["TitleNative"]</h3>
-							<h4>@Localizer["TitleHybrid"]</h4>
+                            <h4>@Localizer["TitleCode"]</h4>
 						</label>
 					</div>
 				</div>
@@ -96,21 +96,6 @@
 							<h3>@Localizer["TitleMachine"]</h3>
 							<h4>@Localizer["TitlePasswordAndClient"]</h4>
 						</label>
-					</div>
-				</div>
-			</div>
-
-			<div class="row">
-				<div class="col-sm-12 col-md-4 mb-3 text-center">
-					<div class="card mb-4 box-shadow">
-						<div class="card-body">
-							<label class="radio-img">
-								<input type="radio" asp-for="ClientType" value="@((int)ClientType.Device)" />
-								<img src="~/images/icons/device-client.png" alt="Device" />
-								<h3>@Localizer["TitleDevice"]</h3>
-								<h4>@Localizer["TitleDeviceFlow"]</h4>
-							</label>
-						</div>
 					</div>
 				</div>
 			</div>

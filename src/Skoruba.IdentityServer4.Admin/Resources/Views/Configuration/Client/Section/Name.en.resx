@@ -120,6 +120,9 @@
   <data name="PanelTitle" xml:space="preserve">
     <value>Name</value>
   </data>
+  <data name="TitleCode" xml:space="preserve">
+    <value>Authorization Code Flow with PKCE</value>
+  </data>
   <data name="TitleDevice" xml:space="preserve">
     <value>TV and Limited-Input Device Application</value>
   </data>
@@ -142,7 +145,7 @@
     <value>Native Application - Mobile/Desktop</value>
   </data>
   <data name="TitlePasswordAndClient" xml:space="preserve">
-    <value>Resource Owner Password and Client Credentials flow</value>
+    <value>Client Credentials flow</value>
   </data>
   <data name="TitleSpa" xml:space="preserve">
     <value>Single Page Application - Javascript</value>
